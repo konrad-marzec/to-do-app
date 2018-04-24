@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:url" content="<%= htmlWebpackPlugin.options.ogUrl %>" />
+  <meta property="og:description" content="To Do App" />
+  <meta property="og:image" content="<%= htmlWebpackPlugin.options.host %><%= require('../static/assets/images/og_image.jpg') %>" />
+  <meta
+    name="Description"
+    content="To Do App"
+  >
+  <link rel="shortcut icon" type="image/x-icon" href="<%= require('../static/assets/images/favicon.ico') %>"/>
+</head>
+<body>
+  <div class="container">
+    <div id="app"></div>
+  </div>
+</body>
+<script async>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+  }
+</script>
+</html>

@@ -1,0 +1,23 @@
+.placeholder {
+  filter: blur(0.5rem);
+  vertical-align: top;
+  min-height: 32rem;
+  max-width: 100%;
+  min-width: 100%;
+  width: 100%;
+  opacity: 1;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
+.exit {
+  position: absolute;
+}
+
+.exitActive {
+  opacity: 0;
+  position: absolute;
+  transition: opacity 1s linear;
+}

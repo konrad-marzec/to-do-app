@@ -1,0 +1,67 @@
+module.exports = [
+  {
+    test: /\.jsx?$/,
+    exclude: /(node_modules|bower_components|public\/)/,
+    loader: 'babel-loader',
+  },
+  {
+    test: /animation\.gsap|debug\.addIndicators/,
+    loader: 'imports-loader?define=>false',
+  },
+  {
+    test: /\.css$/,
+    loaders: ['style-loader', 'css-loader?importLoaders=1'],
+    exclude: ['node_modules'],
+  },
+  {
+    test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'file-loader',
+    // options: {
+    //   publicPath: '..',
+    // },
+  },
+  {
+    test: /\.(woff|woff2)$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'url-loader?prefix=font/&limit=5000',
+  },
+  {
+    test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'url-loader?limit=10000&mimetype=application/octet-stream',
+    // options: {
+    //   publicPath: '..',
+    // },
+  },
+  {
+    test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
+  },
+  {
+    test: /\.gif/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'url-loader?limit=10000&mimetype=image/gif',
+  },
+  {
+    test: /\.ico/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'url-loader?limit=10000&mimetype=image/ico',
+  },
+  {
+    test: /\.jpg/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'url-loader?limit=1000&mimetype=image/jpg',
+  },
+  {
+    test: /\.png/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'url-loader?limit=10000&mimetype=image/png',
+  },
+  {
+    test: /\.mp4/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'url-loader?limit=10000&mimetype=video/mp4',
+  },
+];

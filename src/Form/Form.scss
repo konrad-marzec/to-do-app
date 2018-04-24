@@ -1,0 +1,24 @@
+.label {
+  text-transform: capitalize;
+}
+
+.hintText {
+  text-transform: capitalize;
+}
+
+.submitButton {
+  background-color: rgb(0, 188, 212);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border-radius: 0.2rem;
+  display: inline-block;
+  line-height: 3.6rem;
+  text-align: center;
+  padding: 0 1.6rem;
+  height: 3.6rem;
+  outline: none;
+  color: #fff;
+  border: none;
+}
+

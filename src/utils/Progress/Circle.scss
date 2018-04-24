@@ -1,0 +1,11 @@
+.circle {
+  width: 6rem;
+  height: 6rem;
+  transition: all 0.5s ease;
+}
+
+.circleRing {
+  transition: 0.35s stroke-dashoffset;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}

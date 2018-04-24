@@ -1,0 +1,45 @@
+@import 'utils/variables.scss';
+
+.listInfo {
+  display: flex;
+  padding: 2rem 3rem;
+}
+
+.listDescription {
+  flex: 3;
+}
+
+.listName {
+  justify-content: flex-start;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2.5rem;
+  align-items: center;
+  color: $gunmetal;
+  font-size: 3rem;
+  display: flex;
+}
+
+.buttons {
+  margin-left: 3rem;
+}
+
+.taskCompleted {
+  color: $gunmetal;
+  font-size: 1.6rem;
+  font-family: 'JosefinSansLight';
+
+  strong {
+    font-family: 'JosefinSansBold';
+    margin-right: 0.5rem;
+    font-size: 1.2em;
+  }
+}
+
+.chart {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}

@@ -1,0 +1,16 @@
+.container {
+
+}
+
+.label {
+  composes: label from './Form.scss';
+}
+
+.hintText {
+  composes: hintText from './Form.scss';
+
+}
+
+.submitButton {
+  composes: submitButton from './Form.scss';
+}

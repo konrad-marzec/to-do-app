@@ -1,0 +1,65 @@
+$path: 'utils/fonts';
+
+@font-face {
+  font-family: 'JosefinSansBold';
+  src: url($path + '/JosefinSans-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JosefinSansBoldIt';
+  src: url($path + '/JosefinSans-BoldItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JosefinSansIt';
+  src: url($path + '/JosefinSans-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JosefinSansLight';
+  src: url($path + '/JosefinSans-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JosefinSansLightIt';
+  src: url($path + '/JosefinSans-LightItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JosefinSansRegular';
+  src: url($path + '/JosefinSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JosefinSansThin';
+  src: url($path + '/JosefinSans-Thin.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sea';
+  src: url($path + '/sea_font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Abstract';
+  src: url($path + '/ABSTRACT.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

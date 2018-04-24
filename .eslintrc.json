@@ -1,0 +1,66 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "arrowFunctions": true,
+      "modules": true,
+      "jsx": true
+    },
+    "allowImportExportEverywhere": true
+  },
+  "plugins": [
+    "react",
+    "babel",
+    "graphql"
+  ],
+  "rules": {
+    "strict": 0,
+    "jsx-a11y/href-no-hash": "off",
+    "indent": ["error", 2],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "extensions": 0,
+    "no-use-before-define": [0, {
+      "functions": false,
+      "classes": false
+    }],
+    "global-require": 0,
+    "no-unused-expressions": [2, {
+      "allowShortCircuit": true,
+      "allowTernary": true
+    }],
+    "import/newline-after-import": 0,
+    "arrow-parens": ["error", "as-needed"],
+    "react/forbid-prop-types": [2, {
+      "forbid": ["any"]
+    }],
+    "react/jsx-filename-extension": [1, {
+      "extensions": [".js", ".jsx"]
+    }],
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": true,
+      "optionalDependencies": true,
+      "peerDependencies": true
+    }],
+    "comma-dangle": [2, {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "ignore"
+    }],
+    "graphql/template-strings": ["error", {
+      "env": "apollo",
+      "schemaJson": "require('./schema.json')"
+    }]
+  }
+}

@@ -1,0 +1,34 @@
+@import 'utils/variables.scss';
+
+:global {
+  .MasonryGrid {
+    &-sizer,
+    &-element {
+      width: percentage(1/2);
+      height: auto;
+
+      &:after {
+        content: "";
+        width: 100%;
+        display: block;
+        padding-bottom: 162.58%;
+      }
+
+      @media #{$width-670} {
+        width: percentage(1/3);
+      }
+
+      @media #{$width-1150} {
+        width: percentage(1/5);
+      }
+
+      @media #{$width-1366} {
+        width: percentage(1/8);
+      }
+
+      @media #{$width-1900} {
+        width: percentage(1/9);
+      }
+    }
+  }
+}
