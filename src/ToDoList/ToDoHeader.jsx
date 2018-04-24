@@ -7,10 +7,59 @@ import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
 import gql from "graphql-tag";
 
+import { LISTS_QUERY } from '../Home';
 import Circle from '../utils/Progress/Circle';
 
 import styles from './ToDoHeader.scss';
 class ToDoHeader extends Component {
+  updateCacheRemove = (cache, { data: { removeList } }) => {
+    const { router: { history: { replace } } } = this.context;
+    try {
+      const { lists } = cache.readQuery({ query: LISTS_QUERY });
+
+      cache.writeQuery({
+        query: LISTS_QUERY,
+        data: {
+          lists: lists.filter(l => l.id !== removeList.id)
+        }
+      });
+    } catch (error) {}
+
+    replace({ pathname: '/' });
+  }
+
+  editListButton = (editList, { data }) => {
+    const params = {
+      variables: { id: this.props.list.id }
+    };
+
+    return (
+      <IconButton
+        iconStyle={muiStyles.mediumIcon}
+        onClick={() => editList(params)}
+        style={muiStyles.removeButton}
+      >
+        <ModeEdit />
+      </IconButton>
+    )
+  }
+
+  removeListButton = (removeList, { data }) => {
+    const params = {
+      variables: { id: this.props.list.id }
+    };
+
+    return (
+      <IconButton
+        onClick={() => removeList(params)}
+        iconStyle={muiStyles.mediumIcon}
+        style={muiStyles.removeButton}
+      >
+        <ContentRemove />
+      </IconButton>
+    )
+  }
+
   render() {
     const { list } = this.props;
     const {
@@ -29,18 +78,18 @@ class ToDoHeader extends Component {
             <div className={styles.listName}>
               <div>{list.name}</div>
               <div className={styles.buttons}>
-                <IconButton
-                  iconStyle={muiStyles.mediumIcon}
-                  style={muiStyles.removeButton}
+                <Mutation
+                  mutation={EDIT_LIST}
+                  update={this.updateCacheEdit}
                 >
-                  <ModeEdit />
-                </IconButton>
-                <IconButton
-                  iconStyle={muiStyles.mediumIcon}
-                  style={muiStyles.removeButton}
+                  {this.editListButton}
+                </Mutation>
+                <Mutation
+                  mutation={REMOVE_LIST}
+                  update={this.updateCacheRemove}
                 >
-                  <ContentRemove />
-                </IconButton>
+                  {this.removeListButton}
+                </Mutation>
               </div>
             </div>
             {!!taskCount && (
@@ -92,8 +141,21 @@ const REMOVE_LIST = gql`
   }
 `
 
+const EDIT_LIST = gql`
+  mutation EditList($id: Int!, $name: String!) {
+    editList(id: $id, name: $name) {
+      id
+      name
+    }
+  }
+`
+
 ToDoHeader.propTypes = {
   list: PropTypes.object.isRequired,
 };
+
+ToDoHeader.contextTypes = {
+  router: PropTypes.object.isRequired,
+}
 
 export default ToDoHeader;
