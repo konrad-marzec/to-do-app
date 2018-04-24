@@ -24,22 +24,24 @@ class TaskForm extends Component {
     const { onSuccess, match: { params } } = this.props;
     onSuccess && onSuccess();
 
-    const { listToDos, list } = cache.readQuery({
-      query: TASKS_QUERY,
-      variables: { id: `${params.id}` }
-    });
+    try {
+      const { list } = cache.readQuery({
+        query: TASKS_QUERY,
+        variables: { id: `${params.id}` }
+      });
 
-    cache.writeQuery({
-      query: TASKS_QUERY,
-      variables: { id: `${params.id}` },
-      data: {
-        listToDos: [{ ...addTask, list }, ...listToDos],
-        list: {
-          ...list,
-          todos_count: list.todos_count + 1,
+      cache.writeQuery({
+        query: TASKS_QUERY,
+        variables: { id: `${params.id}` },
+        data: {
+          list: {
+            ...list,
+            tasks: [addTask, ...list.tasks],
+            todos_count: list.todos_count + 1,
+          }
         }
-      }
-    });
+      });
+    } catch (error) {}
   }
 
   renderForm = (addTask, { data }) => {

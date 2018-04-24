@@ -49,22 +49,21 @@ class TaskTile extends Component {
   }
 
   readCache = (cache, id) => {
-    const { listToDos, list } = cache.readQuery({
+    const { list } = cache.readQuery({
       variables: { id: `${this.props.list.id}` },
       query: TASKS_QUERY,
     });
 
-    const task = listToDos.find(t => t.id === id);
+    const task = list.tasks.find(t => t.id === id);
 
     return {
       list,
       task,
-      listToDos,
     }
   }
 
   updateCache = (cache, { data: { updateTask } }) => {
-    const { listToDos, list, task } = this.readCache(cache, updateTask.id);
+    const { list, task } = this.readCache(cache, updateTask.id);
 
     task.is_complete = updateTask.is_complete;
 
@@ -72,7 +71,6 @@ class TaskTile extends Component {
       query: TASKS_QUERY,
       variables: { id: `${this.props.list.id}` },
       data: {
-        listToDos,
         list: {
           ...list,
           completedTasksCount: updateTask.is_complete
@@ -84,22 +82,24 @@ class TaskTile extends Component {
   }
 
   removeFromCache = (cache, { data: { removeTask } }) => {
-    const { listToDos, list, task } = this.readCache(cache, removeTask.id);
+    try {
+      const { list, task } = this.readCache(cache, removeTask.id);
 
-    cache.writeQuery({
-      query: TASKS_QUERY,
-      variables: { id: `${this.props.list.id}` },
-      data: {
-        listToDos: listToDos.filter(t => t.id !== removeTask.id),
-        list: {
-          ...list,
-          todos_count: list.todos_count - 1,
-          completedTasksCount: task.is_complete
-            ? list.completedTasksCount - 1
-            : list.completedTasksCount,
+      cache.writeQuery({
+        query: TASKS_QUERY,
+        variables: { id: `${this.props.list.id}` },
+        data: {
+          list: {
+            ...list,
+            todos_count: list.todos_count - 1,
+            tasks: list.tasks.filter(t => t.id !== removeTask.id),
+            completedTasksCount: task.is_complete
+              ? list.completedTasksCount - 1
+              : list.completedTasksCount,
+          }
         }
-      }
-    })
+      })
+    } catch (error) {}
   }
 
   renderImage = (src, Placeholder, loading) => (

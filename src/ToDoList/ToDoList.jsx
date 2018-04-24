@@ -44,14 +44,12 @@ class ToDoList extends Component {
     )
   }
 
-  renderList = ({ data }) => {
-    return (
-      <Fragment>
-        <ToDoHeader list={data.list} />
-        {this.renderTasks(data.listToDos, data.list)}
-      </Fragment>
-    )
-  }
+  renderList = ({ data: { list } }) => (
+    <Fragment>
+      <ToDoHeader list={list} />
+      {this.renderTasks(list.tasks, list)}
+    </Fragment>
+  )
 
   render() {
     const {
@@ -81,23 +79,29 @@ ToDoList.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
-export const TASKS_QUERY = gql(`
+ToDoList.fragments = {
+  tasks: gql`
+    fragment TasksList on Task {
+      id
+      name
+      is_complete
+    }
+  `,
+}
+
+export const TASKS_QUERY = gql`
   query Tasks($id: Int!, $filter: String) {
     list(id: $id) {
       id
       name
-      todos_count,
+      todos_count
       completedTasksCount
-    }
-    listToDos(id: $id, filter: $filter) {
-      id
-      name
-      is_complete
-      list {
-        id
+      tasks(filter: $filter) {
+        ...TasksList
       }
     }
   }
-`)
+  ${ToDoList.fragments.tasks}
+`
 
 export default ToDoList;
