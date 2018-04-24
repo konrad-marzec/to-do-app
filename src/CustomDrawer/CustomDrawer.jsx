@@ -45,13 +45,13 @@ class CustomDrawer extends Component {
   }
 
   render() {
-    const { match, location } = this.props;
+    const { match: { params }, location } = this.props;
 
     return (
       <Drawer
         containerStyle={{
           ...muiStyles.containerStyle,
-          top: match.params.id ? muiStyles.containerStyle.top + 122 : muiStyles.containerStyle.top,
+          top: params.id ? muiStyles.containerStyle.top + 122 : muiStyles.containerStyle.top,
         }}
         onRequestChange={this.onRequestChange}
         overlayStyle={muiStyles.overlayStyle}
@@ -70,20 +70,48 @@ class CustomDrawer extends Component {
         >
           {this.renderRecentVisitedLists}
         </Query>
-        <Filters match={match} location={location}/>
+        {params.id && (
+          <Filters
+            filters={FILTER_KEYS}
+            labels={filterLabels}
+            title="Filters"
+            param="filter"
+          />
+        )}
+        <Filters
+          title="Order Options"
+          filters={SORT_KEYS}
+          labels={sortLabels}
+          param="order"
+        />
       </Drawer>
     );
   }
 }
 
-const LISTS_QUERY = gql`
-  query ListsQuery($ids: [Int]) {
-    listsByIds(ids: $ids) {
-      name
-      id
-    }
-  }
-`
+const FILTER_KEYS = {
+  ALL: undefined,
+  DONE: 'done',
+  TODO: 'todo',
+};
+
+const filterLabels = {
+  done: 'Done',
+  todo: 'To Do',
+  undefined: 'All'
+}
+
+const SORT_KEYS = {
+  NONE: undefined,
+  DESC: 'desc',
+  ASC: 'asc',
+};
+
+const sortLabels = {
+  undefined: 'None',
+  desc: 'Desc',
+  asc: 'Asc',
+}
 
 const muiStyles = {
   containerStyle: {
@@ -98,6 +126,15 @@ const muiStyles = {
     backgroundColor: 'transparent',
   },
 }
+
+const LISTS_QUERY = gql`
+  query ListsQuery($ids: [Int]) {
+    listsByIds(ids: $ids) {
+      name
+      id
+    }
+  }
+`
 
 CustomDrawer.propTypes = {
   open: PropTypes.bool,

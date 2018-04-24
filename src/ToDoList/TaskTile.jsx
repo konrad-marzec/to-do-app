@@ -40,7 +40,7 @@ class TaskTile extends Component {
 
     return (
       <FloatingActionButton
-        secondary={true}
+        backgroundColor={'red'}
         onClick={() => removeTask(params)}
       >
         <ContentRemove />
