@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import gql from "graphql-tag";
 
 import { TASKS_QUERY } from '../ToDoList'
+import { FILTER_KEYS } from '../utils/Enums';
 
 import styles from './TaskForm.scss'
 class TaskForm extends Component {
@@ -36,22 +37,28 @@ class TaskForm extends Component {
   }
 
   appendToCache = (cache, { data: { addTask } }) => {
-    const { onSuccess, match: { params } } = this.props;
+    const { query: { filter, order } } = this.props;
     this.onSucces();
 
     try {
       const { list } = cache.readQuery({
         query: TASKS_QUERY,
-        variables: { id: `${params.id}` }
+        variables: { id: `${addTask.list.id}`, filter, order }
       });
+
+      const tasks = list.tasks;
+
+      if (FILTER_KEYS.DONE !== filter) {
+        tasks.unshift(addTask);
+      }
 
       cache.writeQuery({
         query: TASKS_QUERY,
-        variables: { id: `${params.id}` },
+        variables: { id: `${addTask.list.id}`, filter, order },
         data: {
           list: {
             ...list,
-            tasks: [addTask, ...list.tasks],
+            tasks,
             todos_count: list.todos_count + 1,
           }
         }
@@ -117,6 +124,9 @@ const UPDATE_TASK = gql`
     updateTask(list: $list, name: $name, id: $id) {
       id
       name
+      list {
+        id
+      }
     }
   }
 `
@@ -127,6 +137,9 @@ const CREATE_TASK = gql`
       id
       name
       is_complete
+      list {
+        id
+      }
     }
   }
 `
@@ -134,6 +147,7 @@ const CREATE_TASK = gql`
 TaskForm.propTypes = {
   match: PropTypes.object.isRequired,
   onSuccess: PropTypes.func,
+  query: PropTypes.object,
 };
 
 export default TaskForm;

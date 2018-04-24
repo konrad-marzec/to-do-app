@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Switch, Route } from 'react-router-dom'
 import Subheader from 'material-ui/Subheader';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
@@ -10,6 +11,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 
 import Filters from './Filters';
+import { SORT_KEYS, FILTER_KEYS } from '../utils/Enums';
 
 import styles from './CustomDrawer.scss';
 class CustomDrawer extends Component {
@@ -40,6 +42,15 @@ class CustomDrawer extends Component {
     return recentLists;
   }
 
+  renderFilters = () => (
+    <Filters
+      filters={FILTER_KEYS}
+      labels={filterLabels}
+      title="Filters"
+      param="filter"
+    />
+  )
+
   render() {
     const { match: { params }, location, docked } = this.props;
 
@@ -65,14 +76,10 @@ class CustomDrawer extends Component {
         >
           {this.renderRecentVisitedLists}
         </Query>
-        {params.id && (
-          <Filters
-            filters={FILTER_KEYS}
-            labels={filterLabels}
-            title="Filters"
-            param="filter"
-          />
-        )}
+        <Route
+          path="/list/:id"
+          component={this.renderFilters}
+        />
         <Filters
           title="Order Options"
           filters={SORT_KEYS}
@@ -84,23 +91,11 @@ class CustomDrawer extends Component {
   }
 }
 
-const FILTER_KEYS = {
-  ALL: undefined,
-  DONE: 'done',
-  TODO: 'todo',
-};
-
 const filterLabels = {
   done: 'Done',
   todo: 'To Do',
   undefined: 'All'
 }
-
-const SORT_KEYS = {
-  NONE: undefined,
-  DESC: 'desc',
-  ASC: 'asc',
-};
 
 const sortLabels = {
   undefined: 'None',

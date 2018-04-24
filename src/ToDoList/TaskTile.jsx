@@ -12,50 +12,58 @@ import gql from "graphql-tag";
 
 import Form from '../Form';
 import { TASKS_QUERY } from './ToDoList';
+import { SORT_KEYS, FILTER_KEYS } from '../utils/Enums';
 import ProgressiveImage from '../utils/ProgressiveImage';
 
 import styles from './TaskTile.scss';
 class TaskTile extends Component {
-  readCache = (cache, id) => {
+  readCache = (cache, variables) => {
     const { list } = cache.readQuery({
-      variables: { id: `${this.props.list.id}` },
+      variables,
       query: TASKS_QUERY,
     });
 
-    const task = list.tasks.find(t => t.id === id);
-
-    return {
-      list,
-      task,
-    }
+    return { list }
   }
 
   updateCache = (cache, { data: { updateTask } }) => {
-    const { list, task } = this.readCache(cache, updateTask.id);
+    try {
+      const { query: { filter, order } } = this.props;
+      const { list } = this.readCache(cache, { id: `${updateTask.list.id}`, filter, order });
+      const { is_complete: taskStatus } = updateTask;
+      let tasks = list.tasks;
 
-    task.is_complete = updateTask.is_complete;
-
-    cache.writeQuery({
-      query: TASKS_QUERY,
-      variables: { id: `${this.props.list.id}` },
-      data: {
-        list: {
-          ...list,
-          completedTasksCount: updateTask.is_complete
-            ? list.completedTasksCount + 1
-            : list.completedTasksCount - 1
-        }
+      if ((filter === FILTER_KEYS.TODO && taskStatus)
+        || (filter === FILTER_KEYS.DONE && !taskStatus)
+      ) {
+        tasks = tasks.filter(t => t.id !== updateTask.id)
       }
-    });
+
+      cache.writeQuery({
+        query: TASKS_QUERY,
+        variables: { id: `${updateTask.list.id}`, filter, order },
+        data: {
+          list: {
+            ...list,
+            tasks,
+            completedTasksCount: taskStatus
+              ? list.completedTasksCount + 1
+              : list.completedTasksCount - 1
+          }
+        }
+      });
+    } catch (error) {}
   }
 
   removeFromCache = (cache, { data: { removeTask } }) => {
     try {
-      const { list, task } = this.readCache(cache, removeTask.id);
+      const { query: { filter, order }, list: { id } } = this.props;
+      const { list } = this.readCache(cache, { id: `${id}`, filter, order });
+      const task = list.tasks.find(t => t.id === removeTask.id);
 
       cache.writeQuery({
         query: TASKS_QUERY,
-        variables: { id: `${this.props.list.id}` },
+        variables: { id: `${id}`, filter, order },
         data: {
           list: {
             ...list,
@@ -167,6 +175,9 @@ const COMPLETE_TASK = gql`
     updateTask(id: $id, is_complete: $is_complete, name: $name, list: $list) {
       is_complete
       id
+      list {
+        id
+      }
     }
   }
 `;

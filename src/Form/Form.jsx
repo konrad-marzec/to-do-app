@@ -4,6 +4,7 @@ import React, { Component, Fragment } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import { withRouter } from 'react-router';
 import Dialog from 'material-ui/Dialog';
+import { parse } from 'query-string';
 import PropTypes from 'prop-types';
 
 import TaskFrom from './TaskForm';
@@ -35,11 +36,24 @@ class Form extends Component {
   };
 
   renderForm = () => {
-    const { match, data, listForm } = this.props;
+    const {
+      data,
+      match,
+      listForm,
+      location: { search },
+    } = this.props;
+    const query = parse(search);
+
+    const formProps = {
+      data,
+      match,
+      query,
+      onSuccess: this.handleClose,
+    }
 
     return match.params.id && !listForm
-      ? <TaskFrom match={match} onSuccess={this.handleClose} data={data} />
-      : <ListFrom match={match} onSuccess={this.handleClose} data={data} />
+      ? <TaskFrom {...formProps} />
+      : <ListFrom {...formProps} />
   }
 
   render() {

@@ -32,7 +32,12 @@ class ToDoList extends Component {
     <ContentRenderer
       elements={tasks}
       render={tasks.map(task => (
-        <TaskTile key={task.id} task={task} list={list}/>)
+        <TaskTile
+          query={parse(this.props.location.search)}
+          key={task.id}
+          task={task}
+          list={list}
+        />)
       )}
     />
 
@@ -48,6 +53,7 @@ class ToDoList extends Component {
       match: { params },
       location: { search },
     } = this.props;
+
     const query = parse(search);
 
     const queryParams = {

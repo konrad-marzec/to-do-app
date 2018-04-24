@@ -3,6 +3,7 @@
 .listInfo {
   display: flex;
   padding: 2rem 3rem;
+  min-height: 9.5rem;
   flex-direction: column;
 
   @media #{$width-670} {
