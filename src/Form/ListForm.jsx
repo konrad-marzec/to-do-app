@@ -8,7 +8,14 @@ import { LISTS_QUERY } from '../Home';
 
 import styles from './ListForm.scss'
 class ListForm extends Component {
-  state = { dirty: false, name: '' }
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      dirty: false,
+      ...(props.data ? props.data : {}),
+    }
+  }
 
   onNameChange = e =>
     this.setState({ name: e.target.value, dirty: true })
@@ -17,10 +24,18 @@ class ListForm extends Component {
     e.preventDefault();
   }
 
+  onSucces = () => {
+    this.props.onSuccess && this.props.onSuccess();
+  }
+
   isFormValid = () =>
     !!this.state.name;
 
-  updateCache = (cache, { data: { addList } }) => {
+  updateListCache = () => {
+    this.onSucces();
+  }
+
+  appendToCache = (cache, { data: { addList } }) => {
     this.props.onSuccess && this.props.onSuccess();
     const { lists } = cache.readQuery({ query: LISTS_QUERY });
 
@@ -28,15 +43,15 @@ class ListForm extends Component {
       query: LISTS_QUERY,
       data: {
         lists: [
-          addList,
           ...lists,
+          addList,
         ]
       }
     });
   }
 
   renderForm = addList => {
-    const { match: { params: { id } } } = this.props;
+    const { match: { params: { id } }, data } = this.props;
     const { name, dirty } = this.state;
     const isFormValid = this.isFormValid();
 
@@ -53,7 +68,7 @@ class ListForm extends Component {
 
     const params = {
       variables: {
-        list: id,
+        ...(data ? data : {} ),
         name,
       }
     };
@@ -61,27 +76,40 @@ class ListForm extends Component {
     return (
       <form onSubmit={e => this.onSubmit(e, addList(params))}>
         <TextField
+          value={name}
           hintText={hintText}
           errorText={errorText}
           onChange={this.onNameChange}
           floatingLabelText={floatingLabelText}
-        /><br />
+        />
         <input type="submit" value="Submit" className={styles.submitButton}/>
       </form>
     );
   }
 
   render() {
+    const { data } = this.props;
+
+    const mutationProps = !!data
+      ? { mutation: UPDATE_LIST, update: this.updateListCache }
+      : { mutation: CREATE_LIST, update: this.appendToCache }
+
     return (
-      <Mutation
-        mutation={CREATE_LIST}
-        update={this.updateCache}
-      >
+      <Mutation {...mutationProps}>
         {this.renderForm}
       </Mutation>
     );
   }
 }
+
+const UPDATE_LIST = gql`
+  mutation UpdateList($id: Int!, $name: String!) {
+    updateList(id: $id, name: $name) {
+      id
+      name
+    }
+  }
+`
 
 const CREATE_LIST = gql`
   mutation AddList($name: String!) {

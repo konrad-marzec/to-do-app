@@ -23,11 +23,11 @@
       }
 
       @media #{$width-1366} {
-        width: percentage(1/8);
+        width: percentage(1/6);
       }
 
       @media #{$width-1900} {
-        width: percentage(1/9);
+        width: percentage(1/7);
       }
     }
   }

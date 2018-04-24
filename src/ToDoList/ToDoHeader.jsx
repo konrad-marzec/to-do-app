@@ -6,6 +6,7 @@ import { Mutation } from "react-apollo";
 import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
 import gql from "graphql-tag";
+import Form from '../Form';
 
 import { LISTS_QUERY } from '../Home';
 import Circle from '../utils/Progress/Circle';
@@ -20,7 +21,7 @@ class ToDoHeader extends Component {
 
     localStorage.setItem(
       'recentLists',
-      JSON.stringify(oldList.filter(l => l.id !== id))
+      JSON.stringify(oldList.filter(t => t !== `${id}`))
     )
   }
 
@@ -42,21 +43,15 @@ class ToDoHeader extends Component {
     replace({ pathname: '/' });
   }
 
-  editListButton = (editList, { data }) => {
-    const params = {
-      variables: { id: this.props.list.id }
-    };
-
-    return (
-      <IconButton
-        iconStyle={muiStyles.mediumIcon}
-        onClick={() => editList(params)}
-        style={muiStyles.removeButton}
-      >
-        <ModeEdit />
-      </IconButton>
-    )
-  }
+  editListButton = onClick => (
+    <IconButton
+      iconStyle={muiStyles.mediumIcon}
+      style={muiStyles.removeButton}
+      onClick={onClick}
+    >
+      <ModeEdit />
+    </IconButton>
+  )
 
   removeListButton = (removeList, { data }) => {
     const params = {
@@ -92,12 +87,11 @@ class ToDoHeader extends Component {
             <div className={styles.listName}>
               <div>{list.name}</div>
               <div className={styles.buttons}>
-                <Mutation
-                  mutation={EDIT_LIST}
-                  update={this.updateCacheEdit}
-                >
-                  {this.editListButton}
-                </Mutation>
+                <Form
+                  data={{ name: list.name, id: list.id }}
+                  launchButton={this.editListButton}
+                  listForm
+                />
                 <Mutation
                   mutation={REMOVE_LIST}
                   update={this.updateCacheRemove}

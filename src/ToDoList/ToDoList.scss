@@ -1,5 +1,7 @@
 @import 'utils/variables.scss';
 
 .container {
+  position: relative;
   padding-top: 12.2rem;
+  min-height: calc(100vh - 18.6rem);
 }

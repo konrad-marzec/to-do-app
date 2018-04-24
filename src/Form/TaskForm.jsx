@@ -8,7 +8,14 @@ import { TASKS_QUERY } from '../ToDoList'
 
 import styles from './TaskForm.scss'
 class TaskForm extends Component {
-  state = { dirty: false, name: '' }
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      dirty: false,
+      ...(props.data ? props.data : {}),
+    }
+  }
 
   onNameChange = e =>
     this.setState({ name: e.target.value, dirty: true })
@@ -67,7 +74,7 @@ class TaskForm extends Component {
     const errorText = isFormValid || !dirty
       ? null
       : (<span>Task name is required</span>);
-debugger;
+
     const params = {
       variables: {
         list: id,
@@ -79,11 +86,12 @@ debugger;
     return (
       <form onSubmit={e => this.onSubmit(e, action(params))}>
         <TextField
+          value={name}
           hintText={hintText}
           errorText={errorText}
           onChange={this.onNameChange}
           floatingLabelText={floatingLabelText}
-        /><br />
+        />
         <input type="submit" value="Submit" className={styles.submitButton}/>
       </form>
     );

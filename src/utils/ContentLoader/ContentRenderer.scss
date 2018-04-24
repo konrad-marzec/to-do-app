@@ -8,7 +8,7 @@
   flex-direction: column;
   align-content: center;
   color: $errieBlack;
-  position: initial;
+  position: absolute;
   display: flex;
-  z-index: 100;
+  z-index: 0;
 }

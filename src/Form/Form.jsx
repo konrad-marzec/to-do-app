@@ -15,16 +15,12 @@ class Form extends Component {
     super(props);
     this.state = {
       ...this.setContext(props.match),
-      ...(props.data ? props.data : {}),
       open: false,
     };
   }
 
   componentWillReceiveProps = nextProps =>
-    this.setState({
-      ...this.setContext(nextProps.match),
-      ...nextProps.data,
-    })
+    this.setState(this.setContext(nextProps.match))
 
   setContext = ({ params }) => ({
     formContext: params.id ? 'task' : 'list',
@@ -39,9 +35,9 @@ class Form extends Component {
   };
 
   renderForm = () => {
-    const { match, data } = this.props;
+    const { match, data, listForm } = this.props;
 
-    return match.params.id
+    return match.params.id && !listForm
       ? <TaskFrom match={match} onSuccess={this.handleClose} data={data} />
       : <ListFrom match={match} onSuccess={this.handleClose} data={data} />
   }
@@ -86,6 +82,7 @@ const muiStyles = {
 
 Form.propTypes = {
   data: PropTypes.object,
+  listForm: PropTypes.bool,
   match: PropTypes.object.isRequired,
 };
 
