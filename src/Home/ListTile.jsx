@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import styles from './ListTile.scss';
 class ListTile extends Component {
   randomColor = () =>
-    colors[Math.floor(Math.random() * 100) % colors.length]
+    colors[this.props.list.name.charCodeAt(0) % colors.length]
 
   render() {
     const { className, list } = this.props;

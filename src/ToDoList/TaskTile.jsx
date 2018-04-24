@@ -16,39 +16,6 @@ import ProgressiveImage from '../utils/ProgressiveImage';
 
 import styles from './TaskTile.scss';
 class TaskTile extends Component {
-  completeTaskButton = (completeTask, { data }) => {
-    const { task, list } = this.props;
-    const params = {
-      variables: {
-        id: task.id,
-        list: list.id,
-        name: task.name,
-        is_complete: !task.is_complete,
-      },
-    };
-
-    return (
-      <FloatingActionButton onClick={() => completeTask(params)}>
-        {task.is_complete ? <ActionDone /> : <CropSquare />}
-      </FloatingActionButton>
-    )
-  }
-
-  removeTaskButton = (removeTask, { data }) => {
-    const params = {
-      variables: { id: this.props.task.id }
-    };
-
-    return (
-      <FloatingActionButton
-        backgroundColor={'red'}
-        onClick={() => removeTask(params)}
-      >
-        <ContentRemove />
-      </FloatingActionButton>
-    )
-  }
-
   readCache = (cache, id) => {
     const { list } = cache.readQuery({
       variables: { id: `${this.props.list.id}` },
@@ -110,7 +77,41 @@ class TaskTile extends Component {
     </Fragment>
   )
 
-  renderButton = onClick =>
+  renderCompleteTaskButton = (completeTask, { data }) => {
+    const { task, list } = this.props;
+    const params = {
+      variables: {
+        id: task.id,
+        list: list.id,
+        name: task.name,
+        is_complete: !task.is_complete,
+      },
+    };
+
+    return (
+      <FloatingActionButton onClick={() => completeTask(params)}>
+        {task.is_complete ? <ActionDone /> : <CropSquare />}
+      </FloatingActionButton>
+    )
+  }
+
+  renderRemoveTaskButton = (removeTask, { data }) => {
+    const params = {
+      variables: { id: this.props.task.id }
+    };
+
+    return (
+      <FloatingActionButton
+        backgroundColor={'red'}
+        onClick={() => removeTask(params)}
+        className={styles.removeButton}
+      >
+        <ContentRemove />
+      </FloatingActionButton>
+    )
+  }
+
+  renderEditButton = onClick =>
     <FloatingActionButton
       onClick={onClick}
     >
@@ -136,22 +137,24 @@ class TaskTile extends Component {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </CardText>
           <CardActions>
-            <Mutation
-              mutation={COMPLETE_TASK}
-              update={this.updateCache}
-            >
-              {this.completeTaskButton}
-            </Mutation>
-            <Form
-              data={{ name: task.name, id: task.id }}
-              launchButton={this.renderButton}
-            />
-            <Mutation
-              mutation={REMOVE_TASK}
-              update={this.removeFromCache}
-            >
-              {this.removeTaskButton}
-            </Mutation>
+            <div className={styles.cardActions}>
+              <Mutation
+                mutation={COMPLETE_TASK}
+                update={this.updateCache}
+              >
+                {this.renderCompleteTaskButton}
+              </Mutation>
+              <Form
+                data={{ name: task.name, id: task.id }}
+                launchButton={this.renderEditButton}
+              />
+              <Mutation
+                mutation={REMOVE_TASK}
+                update={this.removeFromCache}
+              >
+                {this.renderRemoveTaskButton}
+              </Mutation>
+            </div>
           </CardActions>
         </Card>
       </div>

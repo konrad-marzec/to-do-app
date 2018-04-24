@@ -133,7 +133,7 @@ export default {
   },
   drawer: {
     width: spacing.desktopKeylineIncrement * 4,
-    color: transparent,
+    color: palette.canvasColor,
   },
   listItem: {
     nestedLevelDepth: 18,

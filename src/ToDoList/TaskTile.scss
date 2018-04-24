@@ -10,3 +10,12 @@
   min-width: 100%;
   width: 100%;
 }
+
+.cardActions {
+  display: flex;
+}
+
+.removeButton {
+  margin-left: auto;
+  margin-right: 1rem;
+}

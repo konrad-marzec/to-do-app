@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import { graphql } from 'react-apollo';
 import { Route } from 'react-router';
+import { debounce } from 'lodash';
 import gql from 'graphql-tag';
 
 import Form from '../Form';
@@ -9,10 +10,37 @@ import CustomDrawer from '../CustomDrawer';
 
 import styles from './StandardRoute.scss'
 class StarndardRoute extends Component {
-  state = { open: false }
+  constructor() {
+    super();
+    this.state = {
+      open: false,
+      docked: typeof window !== 'undefined' && window.innerWidth > BREAK_POINT,
+    };
+
+    this.onResizeDeb = debounce(this.onResize, 16);
+  }
+
+  componentDidMount = () => {
+    window.addEventListener('resize', this.onResizeDeb)
+  }
+
+  componentWillUnmount = () =>
+    window.removeEventListener('resize', this.onResizeDeb)
 
   onRequestChange = open =>
     this.setState({ open });
+
+  onResize = e => {
+    const { docked } = this.state;
+
+    if (window.innerWidth < BREAK_POINT && docked) {
+      this.setState({ docked: false });
+    }
+
+    if (window.innerWidth >= BREAK_POINT && !docked) {
+      this.setState({ docked: true });
+    }
+  }
 
   handleToggle = () =>
     this.setState({ open: !this.state.open });
@@ -20,9 +48,9 @@ class StarndardRoute extends Component {
   componentWrapper = props => {
     let contentStyle = { ...muiStyles.contentStyle };
     const { component: Component, match } = this.props;
-    const { open } = this.state;
+    const { open, docked } = this.state;
 
-    if (open) {
+    if (open && docked) {
       contentStyle.marginLeft = DRAWER_WIDTH;
     }
 
@@ -31,7 +59,11 @@ class StarndardRoute extends Component {
         <AppBar
           onLeftIconButtonClick={this.handleToggle}
         />
-        <CustomDrawer open={open}/>
+        <CustomDrawer
+          open={open}
+          docked={docked}
+          onRequestChange={!docked && this.onRequestChange}
+        />
         <div style={contentStyle}>
           <Component {...props} drawerOpened={open} />
         </div>
@@ -52,6 +84,7 @@ class StarndardRoute extends Component {
   }
 }
 
+const BREAK_POINT = 670;
 const DRAWER_WIDTH = 256;
 const muiStyles = {
   contentStyle: {

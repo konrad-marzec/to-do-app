@@ -13,10 +13,6 @@ import Filters from './Filters';
 
 import styles from './CustomDrawer.scss';
 class CustomDrawer extends Component {
-  shouldComponentUpdate = nextProps =>
-    this.props.location.pathname !== nextProps.location.pathname
-      || this.props.open !== nextProps.open;
-
   renderRecentVisitedLists = ({ loading, error, data }) => {
     if (loading || error) {
       return null;
@@ -45,17 +41,16 @@ class CustomDrawer extends Component {
   }
 
   render() {
-    const { match: { params }, location } = this.props;
+    const { match: { params }, location, docked } = this.props;
 
     return (
       <Drawer
-        containerStyle={{
-          ...muiStyles.containerStyle,
-          top: params.id ? muiStyles.containerStyle.top + 122 : muiStyles.containerStyle.top,
-        }}
-        onRequestChange={this.onRequestChange}
-        overlayStyle={muiStyles.overlayStyle}
+        containerStyle={muiStyles.containerStyle(docked, params.id)}
+        onRequestChange={this.props.onRequestChange}
+        overlayStyle={muiStyles.overlayStyle(docked)}
+        style={muiStyles.drawer(docked)}
         open={this.props.open}
+        docked={docked}
       >
         <Subheader>Menu</Subheader>
         <MenuItem style={muiStyles.menuItem}>
@@ -114,17 +109,22 @@ const sortLabels = {
 }
 
 const muiStyles = {
-  containerStyle: {
-    position: 'fixed',
-    boxShadow: 'none',
-    top: 64,
-  },
+  drawer: docked => (
+    docked
+      ? { backgroundColor: 'transparent' }
+      : { top: 0 }
+  ),
+  containerStyle: (docked, lower) => (
+    docked
+      ? (lower ? { top: 200 } : { top: 64 })
+      : { top: 0 }
+  ),
   menuItem: {
     padding: 0,
   },
-  overlayStyle: {
-    backgroundColor: 'transparent',
-  },
+  overlayStyle: docked => ({
+    backgroundColor: docked ? 'transparent' : 'rgba(0, 0, 0, 0.54)',
+  }),
 }
 
 const LISTS_QUERY = gql`
@@ -138,6 +138,8 @@ const LISTS_QUERY = gql`
 
 CustomDrawer.propTypes = {
   open: PropTypes.bool,
+  docked: PropTypes.bool,
+  onRequestChange: PropTypes.func,
   match: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
 };

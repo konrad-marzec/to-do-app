@@ -7,11 +7,6 @@ import { isEqual } from 'lodash';
 
 import './MasonryGrid.scss';
 class MasonryGrid extends Component {
-  shouldComponentUpdate = nextProps =>
-    !isEqual(nextProps.elements, this.props.elements)
-      || nextProps.renderGrid !== this.props.renderGrid
-      || nextProps.className !== this.props.className
-
   setMasonry = c => {
     this.masonry = c;
   }
