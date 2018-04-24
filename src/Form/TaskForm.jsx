@@ -17,12 +17,20 @@ class TaskForm extends Component {
     e.preventDefault();
   }
 
+  onSucces = () => {
+    this.props.onSuccess && this.props.onSuccess();
+  }
+
   isFormValid = () =>
     !!this.state.name;
 
-  updateCache = (cache, { data: { addTask } }) => {
+  updateTaskCache = () => {
+    this.onSucces();
+  }
+
+  appendToCache = (cache, { data: { addTask } }) => {
     const { onSuccess, match: { params } } = this.props;
-    onSuccess && onSuccess();
+    this.onSucces();
 
     try {
       const { list } = cache.readQuery({
@@ -44,8 +52,8 @@ class TaskForm extends Component {
     } catch (error) {}
   }
 
-  renderForm = (addTask, { data }) => {
-    const { match: { params: { id } } } = this.props;
+  renderForm = action => {
+    const { match: { params: { id } }, data } = this.props;
     const { name, dirty } = this.state;
     const isFormValid = this.isFormValid();
 
@@ -59,16 +67,17 @@ class TaskForm extends Component {
     const errorText = isFormValid || !dirty
       ? null
       : (<span>Task name is required</span>);
-
+debugger;
     const params = {
       variables: {
         list: id,
+        ...(!!data ? data : {}),
         name,
       }
     };
 
     return (
-      <form onSubmit={e => this.onSubmit(e, addTask(params))}>
+      <form onSubmit={e => this.onSubmit(e, action(params))}>
         <TextField
           hintText={hintText}
           errorText={errorText}
@@ -81,16 +90,28 @@ class TaskForm extends Component {
   }
 
   render() {
+    const { data } = this.props;
+
+    const mutationProps = !!data
+      ? { mutation: UPDATE_TASK, update: this.updateTaskCache }
+      : { mutation: CREATE_TASK, update: this.appendToCache }
+
     return (
-      <Mutation
-        mutation={CREATE_TASK}
-        update={this.updateCache}
-      >
+      <Mutation {...mutationProps} >
         {this.renderForm}
       </Mutation>
     );
   }
 }
+
+const UPDATE_TASK = gql`
+  mutation UpdateTask($list: Int!, $name: String!, $id: Int!) {
+    updateTask(list: $list, name: $name, id: $id) {
+      id
+      name
+    }
+  }
+`
 
 const CREATE_TASK = gql`
   mutation AddTask($list: Int!, $name: String!) {

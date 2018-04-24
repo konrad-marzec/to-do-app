@@ -10,6 +10,7 @@ import { Mutation } from "react-apollo";
 import PropTypes from 'prop-types';
 import gql from "graphql-tag";
 
+import Form from '../Form';
 import { TASKS_QUERY } from './ToDoList';
 import ProgressiveImage from '../utils/ProgressiveImage';
 
@@ -109,6 +110,13 @@ class TaskTile extends Component {
     </Fragment>
   )
 
+  renderButton = onClick =>
+    <FloatingActionButton
+      onClick={onClick}
+    >
+      <ModeEdit />
+    </FloatingActionButton>
+
   render() {
     const { task } = this.props;
     return (
@@ -134,9 +142,10 @@ class TaskTile extends Component {
             >
               {this.completeTaskButton}
             </Mutation>
-            <FloatingActionButton>
-              <ModeEdit />
-            </FloatingActionButton>
+            <Form
+              data={{ name: task.name, id: task.id }}
+              launchButton={this.renderButton}
+            />
             <Mutation
               mutation={REMOVE_TASK}
               update={this.removeFromCache}

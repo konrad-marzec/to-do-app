@@ -15,15 +15,19 @@ class Form extends Component {
     super(props);
     this.state = {
       ...this.setContext(props.match),
+      ...(props.data ? props.data : {}),
       open: false,
     };
   }
 
   componentWillReceiveProps = nextProps =>
-    this.setState(this.setContext(nextProps.match))
+    this.setState({
+      ...this.setContext(nextProps.match),
+      ...nextProps.data,
+    })
 
   setContext = ({ params }) => ({
-    formContext: params.id? 'task' : 'list',
+    formContext: params.id ? 'task' : 'list',
   })
 
   handleOpen = () => {
@@ -35,15 +39,16 @@ class Form extends Component {
   };
 
   renderForm = () => {
-    const { match } = this.props;
+    const { match, data } = this.props;
 
     return match.params.id
-      ? <TaskFrom match={match} onSuccess={this.handleClose} />
-      : <ListFrom match={match} onSuccess={this.handleClose} />
+      ? <TaskFrom match={match} onSuccess={this.handleClose} data={data} />
+      : <ListFrom match={match} onSuccess={this.handleClose} data={data} />
   }
 
   render() {
     const { formContext } = this.state;
+    const { launchButton, data } = this.props;
 
     const actions = [
       <FlatButton
@@ -53,19 +58,15 @@ class Form extends Component {
       />,
     ];
 
+    const title = data ? `Edit ${formContext}` : `Create ${formContext}`
+
     return (
       <Fragment>
-        <FloatingActionButton
-          onClick={this.handleOpen}
-          style={muiStyles.button}
-          secondary={true}
-        >
-          <ContentAdd />
-        </FloatingActionButton>
+        {launchButton(this.handleOpen)}
         <Dialog
-          title={`Create new ${formContext}`}
           open={this.state.open}
           actions={actions}
+          title={title}
           modal={true}
         >
           {this.renderForm()}
@@ -84,7 +85,20 @@ const muiStyles = {
 }
 
 Form.propTypes = {
+  data: PropTypes.object,
   match: PropTypes.object.isRequired,
+};
+
+Form.defaultProps = {
+  launchButton: onClick => (
+    <FloatingActionButton
+      style={muiStyles.button}
+      onClick={onClick}
+      secondary={true}
+    >
+      <ContentAdd />
+    </FloatingActionButton>
+  )
 };
 
 export default withRouter(Form);
