@@ -3,16 +3,3 @@
 .container {
   padding-top: 12.2rem;
 }
-
-.placeholder {
-  composes: container from '../utils/ContentLoader/ContentLoader.scss';
-
-  background-color: transparent;
-  justify-content: center;
-  flex-direction: column;
-  align-content: center;
-  color: $errieBlack;
-  position: initial;
-  display: flex;
-  z-index: 100;
-}

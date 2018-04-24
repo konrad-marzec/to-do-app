@@ -46,7 +46,7 @@ class CustomQuery extends Component {
     };
 
     return (
-      <Query {...queryProps}>
+      <Query {...queryProps} fetchPolicy="network-only">
         {this.renderQueryResult}
       </Query>
     );

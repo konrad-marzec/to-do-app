@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 
 import Query from '../Query';
+import TaskTile from './TaskTile';
 import ToDoHeader from './ToDoHeader';
 import ContentLoader from '../utils/ContentLoader';
-import animationData from '../../static/assets/loaders/empty_list.json';
+import ContentRenderer from '../utils/ContentLoader/ContentRenderer';
 
 import styles from './TodoList.scss';
-import TaskTile from './TaskTile';
 class ToDoList extends Component {
   componentDidMount = () => {
     this.updateRecentlyVisited();
@@ -28,21 +28,13 @@ class ToDoList extends Component {
     )
   }
 
-  renderTasks = (tasks, list) => {
-    if (!tasks.length) {
-      return (
-        <ContentLoader
-          className={styles.placeholder}
-          animationData={animationData}
-          text="This list is empty"
-        />
-      )
-    }
-
-    return tasks.map(task => (
-      <TaskTile key={task.id} task={task} list={list}/>)
-    )
-  }
+  renderTasks = (tasks, list) =>
+    <ContentRenderer
+      elements={tasks}
+      render={tasks.map(task => (
+        <TaskTile key={task.id} task={task} list={list}/>)
+      )}
+    />
 
   renderList = ({ data: { list } }) => (
     <Fragment>

@@ -12,6 +12,18 @@ import Circle from '../utils/Progress/Circle';
 
 import styles from './ToDoHeader.scss';
 class ToDoHeader extends Component {
+  updateRecentlyVisited = id => {
+    let oldList = [];
+    try {
+      oldList = JSON.parse(localStorage.getItem('recentLists') || '[]');
+    } catch (error) {}
+
+    localStorage.setItem(
+      'recentLists',
+      JSON.stringify(oldList.filter(l => l.id !== id))
+    )
+  }
+
   updateCacheRemove = (cache, { data: { removeList } }) => {
     const { router: { history: { replace } } } = this.context;
     try {
@@ -23,6 +35,8 @@ class ToDoHeader extends Component {
           lists: lists.filter(l => l.id !== removeList.id)
         }
       });
+
+      this.updateRecentlyVisited(removeList.id);
     } catch (error) {}
 
     replace({ pathname: '/' });

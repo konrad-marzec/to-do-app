@@ -38,7 +38,7 @@ class CustomDrawer extends Component {
     let recentLists = [];
 
     try {
-      recentLists = JSON.parse(localStorage.getItem('recentLists'))
+      recentLists = JSON.parse(localStorage.getItem('recentLists') || '[]')
     } catch (error) {}
 
     return recentLists;

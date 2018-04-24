@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import Query from '../Query';
 import ListTile from './ListTile';
 import MasonryGrid from '../utils/Masonry';
+import ContentRenderer from '../utils/ContentLoader/ContentRenderer';
 
 import styles from './Home.scss';
 class Home extends Component {
@@ -24,10 +25,16 @@ class Home extends Component {
   }
 
   renderGrid = ({ data: { lists } }) => (
-    <MasonryGrid
+    <ContentRenderer
+      text="Add to do lists."
       elements={lists}
-      className={styles.tiles}
-      renderGrid={this.renderLists}
+      render={
+        <MasonryGrid
+          elements={lists}
+          className={styles.tiles}
+          renderGrid={this.renderLists}
+        />
+      }
     />
   )
   render() {
@@ -43,15 +50,24 @@ class Home extends Component {
   }
 }
 
-export const LISTS_QUERY = gql`
-  query ListsQuery($order: String) {
-    lists(order: $order) {
+Home.fragments = {
+  list: gql`
+    fragment listFields on List {
       id
       name
       todos_count,
       completedTasksCount
     }
+  `
+}
+
+export const LISTS_QUERY = gql`
+  query ListsQuery($order: String) {
+    lists(order: $order) {
+      ...listFields
+    }
   }
+  ${Home.fragments.list}
 `
 
 export default Home;
