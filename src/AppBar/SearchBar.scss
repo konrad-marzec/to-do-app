@@ -1,0 +1,35 @@
+.container {
+  background: rgba(255,255,255,0.16);
+  border-radius: 0.4rem;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  display: flex;
+}
+
+.containerFocus {
+  background-color: white;
+  color: black;
+}
+
+.submit {
+  position: absolute;
+  z-index: -1;
+  top: 100%;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearButton {
+  border: none;
+  outline: none;
+  line-height: 0;
+  cursor: pointer;
+  background: none;
+  padding: 0 0.4rem;
+}

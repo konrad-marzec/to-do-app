@@ -37,13 +37,16 @@ class Home extends Component {
       }
     />
   )
+
   render() {
+    const { order, search } = this.getQuery();
+
     return (
       <div className={styles.container}>
         <Query
           query={LISTS_QUERY}
           component={this.renderGrid}
-          variables={{ order: this.getQuery().order }}
+          variables={{ order, search }}
         />
       </div>
     );
@@ -62,8 +65,8 @@ Home.fragments = {
 }
 
 export const LISTS_QUERY = gql`
-  query ListsQuery($order: String) {
-    lists(order: $order) {
+  query ListsQuery($order: String, $search: String) {
+    lists(order: $order, search: $search) {
       ...listFields
     }
   }

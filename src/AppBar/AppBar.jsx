@@ -10,7 +10,7 @@ class AppBar extends Component {
     return (
       <MaterialAppBar
         style={muiStyles.container}
-        title="TO DO APP"
+        title="TO DO App"
         iconElementRight={<SearchBar />}
         onLeftIconButtonClick={onLeftIconButtonClick}
       />

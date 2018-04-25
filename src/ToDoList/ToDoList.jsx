@@ -60,6 +60,7 @@ class ToDoList extends Component {
       id: params.id,
       order: query.order,
       filter: query.filter,
+      search: query.search,
     }
 
     return (
@@ -90,13 +91,13 @@ ToDoList.fragments = {
 }
 
 export const TASKS_QUERY = gql`
-  query Tasks($id: Int!, $filter: String, $order: String) {
+  query Tasks($id: Int!, $filter: String, $order: String, $search: String) {
     list(id: $id) {
       id
       name
       todos_count
       completedTasksCount
-      tasks(filter: $filter, order: $order) {
+      tasks(filter: $filter, order: $order, search: $search) {
         ...TasksList
       }
     }
