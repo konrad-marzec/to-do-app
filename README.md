@@ -26,7 +26,9 @@ TODO
 
 ## Deployment
 
-TODO
+  * [ ] Server Side Rendering
+  * [ ] CLI
+  * [ ] Deploy
 
 ## Built With
 
