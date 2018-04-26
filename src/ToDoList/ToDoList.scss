@@ -2,6 +2,22 @@
 
 .container {
   position: relative;
-  padding-top: 12.2rem;
-  min-height: calc(100vh - 18.6rem);
+  margin-top: 36.6rem;
+  min-height: calc(100vh - 36.6rem);
+
+  @media #{$width-670} {
+    margin-top: 20.2rem;
+    min-height: calc(100vh - 20.2rem);
+  }
+
+  &:before {
+    background-color: #00bcd4;
+    min-height: 20rem;
+    position: fixed;
+    display: block;
+    content: '';
+    right: 0;
+    left: 0;
+    top: 0;
+  }
 }

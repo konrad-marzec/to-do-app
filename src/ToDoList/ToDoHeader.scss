@@ -4,10 +4,12 @@
   display: flex;
   padding: 2rem 3rem;
   min-height: 9.5rem;
+  margin-top: 6.4rem;
   flex-direction: column;
 
   @media #{$width-670} {
     flex-direction: row;
+    margin-top: 0;
   }
 }
 

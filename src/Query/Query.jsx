@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Query } from "react-apollo";
 import PropTypes from 'prop-types';
 
+import ContentError from '../utils/ContentLoader/ContentError';
 import ContentLoader from '../utils/ContentLoader';
 
 class CustomQuery extends Component {
@@ -15,7 +16,11 @@ class CustomQuery extends Component {
     }
 
     if (error) {
-      return `Error!: ${error}`;
+      return (
+        <ContentError
+          text={error.message}
+        />
+      );
     }
 
     const { component: QueryComponent } = this.props

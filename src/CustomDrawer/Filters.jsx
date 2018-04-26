@@ -34,11 +34,11 @@ class Filters extends Component {
   renderButtons = () => {
     const { filters, labels } = this.props;
 
-    return map(filters, key => (
+    return map(filters, (key, idx) => (
       <FloatingActionButton
         onClick={() => this.filterBy(key)}
         secondary={this.isActive(key)}
-        key={key}
+        key={idx}
       >
         <span>{labels[key]}</span>
       </FloatingActionButton>

@@ -7,6 +7,10 @@
     font-family: 'JosefinSansLight';
     background-color: #e8e8e8;
 
+    body {
+      min-width: 320px;
+    }
+
     button {
       background: none;
       outline: none;

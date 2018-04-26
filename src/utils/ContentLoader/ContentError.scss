@@ -1,0 +1,14 @@
+@import 'utils/variables.scss';
+
+.container {
+  composes: container from './ContentLoader.scss';
+
+  background-color: transparent;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  color: $errieBlack;
+  position: absolute;
+  display: flex;
+  z-index: 0;
+}

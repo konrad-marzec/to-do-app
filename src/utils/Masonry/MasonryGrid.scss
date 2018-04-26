@@ -4,7 +4,7 @@
   .MasonryGrid {
     &-sizer,
     &-element {
-      width: percentage(1/2);
+      width: percentage(1);
       height: auto;
 
       &:after {
@@ -12,6 +12,10 @@
         width: 100%;
         display: block;
         padding-bottom: 162.58%;
+      }
+
+      @media #{$width-420} {
+        width: percentage(1/2);
       }
 
       @media #{$width-670} {

@@ -62,7 +62,7 @@ class StarndardRoute extends Component {
         <CustomDrawer
           open={open}
           docked={docked}
-          onRequestChange={!docked && this.onRequestChange}
+          onRequestChange={!docked ? this.onRequestChange : null}
         />
         <div style={contentStyle}>
           <Component {...props} drawerOpened={open} />
@@ -88,7 +88,6 @@ const BREAK_POINT = 670;
 const DRAWER_WIDTH = 256;
 const muiStyles = {
   contentStyle: {
-    marginTop: 64,
     transition: 'margin-left 450ms cubic-bezier(0.23, 1, 0.32, 1)',
   }
 }

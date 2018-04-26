@@ -1,4 +1,12 @@
+@import 'utils/variables.scss';
+
 .container {
   position: relative;
-  min-height: calc(100vh - 6.4rem);
+  margin-top: 13.2rem;
+  min-height: calc(100vh - 13.2rem);
+
+  @media #{$width-670} {
+    margin-top: 6.4rem;
+    min-height: calc(100vh - 6.4rem);
+  }
 }

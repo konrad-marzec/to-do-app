@@ -1,0 +1,23 @@
+@import 'utils/variables.scss';
+
+.container {
+  display: flex;
+  padding-bottom: 2rem;
+  flex-direction: column;
+
+  @media #{$width-670} {
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 0;
+  }
+}
+
+.logo {
+  color: black;
+  display: block;
+}
+
+.rightMenu {
+  display: flex;
+  align-items: center;
+}

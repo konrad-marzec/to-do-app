@@ -93,6 +93,7 @@ class SearchBar extends Component {
             onBlur={this.onBlur}
             onFocus={this.onFocus}
             onChange={this.onChange}
+            style={muiStyles.container}
             underlineStyle={muiStyles.underlineStyle}
             underlineFocusStyle={muiStyles.underlineStyle}
           />
@@ -110,6 +111,9 @@ class SearchBar extends Component {
 }
 
 const muiStyles = {
+  container: {
+    width: 210,
+  },
   button: {
     height: 48,
     lineHeight: 1,
