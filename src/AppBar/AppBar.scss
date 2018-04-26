@@ -6,6 +6,8 @@
   flex-direction: column;
 
   @media #{$width-670} {
+    padding-right: 2.4rem !important;
+    padding-left: 2.4rem !important;
     flex-direction: row;
     align-items: center;
     padding-bottom: 0;

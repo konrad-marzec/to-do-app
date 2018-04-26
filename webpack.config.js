@@ -88,9 +88,9 @@ module.exports = {
     }),
     new WebpackPwaManifest({
       inject: true,
-      name: '',
-      short_name: '',
-      description: '',
+      name: 'To Do App',
+      short_name: 'To Do',
+      description: 'To Do app',
       background_color: '#000000',
       theme_color: '#000000',
       icons: [

@@ -50,6 +50,8 @@ const muiStyles = {
   container: {
     position: 'fixed',
     display: 'flex',
+    paddingRight: 0,
+    paddingLeft: 0,
     top: 0,
   }
 }

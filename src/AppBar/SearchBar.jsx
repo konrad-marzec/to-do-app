@@ -116,6 +116,7 @@ const muiStyles = {
   },
   button: {
     height: 48,
+    minWidth: 48,
     lineHeight: 1,
   },
   underlineStyle: {
