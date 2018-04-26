@@ -69,6 +69,7 @@ module.exports = {
       'process.env': {
         PORT: JSON.stringify(process.env.PORT),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        BACKEND_URL: JSON.stringify(process.env.BACKEND_URL) || "'http://localhost:8080'",
       }
     }),
     new MiniCssExtractPlugin({
@@ -87,16 +88,14 @@ module.exports = {
       preload: /\.js$/,
       defaultAttribute: 'async',
     }),
-    new SWPrecacheWebpackPlugin(
-      {
-        cacheId: 'to-do-app',
-        dontCacheBustUrlsMatching: /\.\w{8}\./,
-        filename: 'service-worker.js',
-        minify: true,
-        navigateFallback: '/index.html',
-        staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
-      }
-    ),
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'to-do-app',
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: 'service-worker.js',
+      minify: true,
+      navigateFallback: '/index.html',
+      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+    }),
     new WebpackPwaManifest({
       inject: true,
       name: 'To Do App',

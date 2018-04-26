@@ -11,7 +11,7 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql',
+  uri: `${process.env.BACKEND_URL}/graphql`,
   cache,
 });
 
