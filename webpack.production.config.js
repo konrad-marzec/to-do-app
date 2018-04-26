@@ -7,6 +7,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 loaders.push({
@@ -18,7 +19,8 @@ loaders.push({
       options: {
         minimize: {
           safe: true
-        }
+        },
+        modules: true,
       }
     },
     {
@@ -106,11 +108,19 @@ module.exports = {
       preload: /\.js$/,
       defaultAttribute: 'async'
     }),
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'to-do-app',
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: 'service-worker.js',
+      minify: true,
+      navigateFallback: '/index.html',
+      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+    }),
     new WebpackPwaManifest({
       inject: true,
-      name: '',
-      short_name: '',
-      description: '',
+      name: 'To Do App',
+      short_name: 'To Do',
+      description: 'To Do app',
       background_color: '#000000',
       theme_color: '#000000',
       icons: [

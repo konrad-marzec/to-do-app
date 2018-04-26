@@ -42,6 +42,7 @@ $ npm run dev
   * [x] RWD
   * [x] Chrome / Firefox support
   * [x] GraphQL server
+  * [x] Mobile web App (beta)
   * [x] Awesome placeholders and loading effects
 
 ## Running the tests

@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 const HOST = process.env.HOST || '127.0.0.1';
@@ -86,6 +87,16 @@ module.exports = {
       preload: /\.js$/,
       defaultAttribute: 'async',
     }),
+    new SWPrecacheWebpackPlugin(
+      {
+        cacheId: 'to-do-app',
+        dontCacheBustUrlsMatching: /\.\w{8}\./,
+        filename: 'service-worker.js',
+        minify: true,
+        navigateFallback: '/index.html',
+        staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+      }
+    ),
     new WebpackPwaManifest({
       inject: true,
       name: 'To Do App',

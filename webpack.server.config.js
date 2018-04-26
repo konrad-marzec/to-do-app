@@ -10,7 +10,6 @@ module.exports = {
   externals: [nodeExternals()],
   entry: [
     'babel-polyfill',
-    // 'intersection-observer',
     './server.js',
   ],
   output: {
