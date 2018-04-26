@@ -88,8 +88,10 @@ module.exports = {
     new WebpackCleanupPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: '"production"',
-        BACKEND_URL: JSON.stringify(process.env.BACKEND_URL) || "'http://localhost:8080'",
+        NODE_ENV: "'production",
+        PORT: JSON.stringify(process.env.PORT),
+        HOST: JSON.stringify(process.env.HOST),
+        BACKEND_URL: JSON.stringify(process.env.BACKEND_URL),
       },
     }),
     new MiniCssExtractPlugin({

@@ -8,6 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
+* [direnv](https://github.com/direnv/direnv) - an environment switcher for the shell.
 * [to-do-app-server](https://github.com/konrad-marzec/to-do-app-server) - GrapQL server for this app.
 
 ### Installing

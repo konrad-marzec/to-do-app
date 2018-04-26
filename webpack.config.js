@@ -9,7 +9,7 @@ const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 const HOST = process.env.HOST || '127.0.0.1';
-const PORT = process.env.PORT || '8888';
+const PORT = process.env.PORT || '8000';
 
 loaders.push({
   test: /\.scss$/,
@@ -68,8 +68,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         PORT: JSON.stringify(process.env.PORT),
+        HOST: JSON.stringify(process.env.HOST),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        BACKEND_URL: JSON.stringify(process.env.BACKEND_URL) || "'http://localhost:8080'",
+        BACKEND_URL: JSON.stringify(process.env.BACKEND_URL),
       }
     }),
     new MiniCssExtractPlugin({
