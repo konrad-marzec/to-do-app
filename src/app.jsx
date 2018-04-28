@@ -5,7 +5,7 @@ import React from 'react';
 import theme from './utils/theme';
 import ToDoApp from './routes/ToDoApp';
 
-class App extends React.PureComponent {
+class App extends React.Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(theme)}>

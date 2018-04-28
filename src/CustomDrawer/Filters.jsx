@@ -15,7 +15,6 @@ class Filters extends Component {
   filterBy = key => {
     const { router: { history: { replace } } } = this.context;
     const { param } = this.props;
-
     const query = this.getQuery();
 
     if (key) {

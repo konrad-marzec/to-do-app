@@ -33,7 +33,7 @@ if (module.hot) {
   module.hot.accept('./app', () => {
     const NextApp = require('./app').default;
     ReactDOM.render(
-      <AppContainer>
+      <AppContainer client={client}>
         <BrowserRouter>
           <NextApp/>
         </BrowserRouter>
